@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.myimagelogapp.fragment.HomeFragment"
+        android:label="Home">
+
+        <action
+            android:id="@+id/action_home_to_create"
+            app:destination="@id/postCreateFragment" />
+
+        <action
+            android:id="@+id/action_home_to_uploadQueue"
+            app:destination="@id/uploadQueueFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/postCreateFragment"
+        android:name="com.example.myimagelogapp.fragment.PostCreateFragment"
+        android:label="Create" />
+
+    <fragment
+        android:id="@+id/uploadQueueFragment"
+        android:name="com.example.myimagelogapp.fragment.UploadQueueFragment"
+        android:label="Uploads" />
+</navigation>
