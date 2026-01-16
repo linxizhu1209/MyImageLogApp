@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_uploads"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Uploads" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
