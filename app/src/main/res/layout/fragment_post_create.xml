@@ -5,9 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <EditText
+        android:id="@+id/et_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create" />
+        android:hint="제목" />
 
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="내용"
+        android:minLines="5"
+        android:gravity="top"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btn_pick_photos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="사진 선택"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:id="@+id/tv_photo_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0/10"
+        android:layout_marginTop="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_photos"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:layout_marginTop="8dp"
+        android:overScrollMode="never" />
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="업로드 시작(다음 단계)"
+        android:layout_marginTop="12dp" />
 </LinearLayout>
