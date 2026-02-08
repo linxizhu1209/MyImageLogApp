@@ -15,7 +15,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val viewModel: ImageViewModel by lazy {
         ImageViewModel(
             ImageRepository(
-                RetrofitProvider.imageAPi
+                RetrofitProvider.imageApi
             )
         )
     }

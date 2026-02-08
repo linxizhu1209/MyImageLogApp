@@ -18,13 +18,13 @@ object RetrofitProvider {
             ).build()
     }
 
-    val imageAPi: ImageAPi by lazy {
+    val imageApi: ImageApi by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
-            .create(ImageAPi::class.java)
+            .create(ImageApi::class.java)
     }
 
 }
