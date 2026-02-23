@@ -12,5 +12,6 @@ data class UploadTaskEntity(
     val status: String,
     val progress: Int,
     val createdAt: Long,
-    val errorMessage: String? = null
+    val errorMessage: String?,
+    val resultJson: String? = null
 )

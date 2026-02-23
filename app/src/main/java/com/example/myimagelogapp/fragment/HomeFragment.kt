@@ -13,10 +13,9 @@ import com.example.myimagelogapp.viewModel.ImageViewModel
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val viewModel: ImageViewModel by lazy {
+        val api = RetrofitProvider.createImageApi(requireContext())
         ImageViewModel(
-            ImageRepository(
-                RetrofitProvider.imageApi
-            )
+            repo = ImageRepository(api)
         )
     }
     private var _binding: FragmentHomeBinding? = null

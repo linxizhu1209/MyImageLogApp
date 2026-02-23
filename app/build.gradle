@@ -4,6 +4,13 @@ plugins {
     id 'org.jetbrains.kotlin.kapt'
 }
 
+def props = new Properties()
+def localPropsFile = rootProject.file("local.properties")
+if (localPropsFile.exists()) {
+    props.load(localPropsFile.newDataInputStream())
+}
+def BASE_URL = props.getProperty("BASE_URL", "http://10.0.2.2:8081/")
+
 android {
     namespace 'com.example.myimagelogapp'
     compileSdk 36
@@ -16,10 +23,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        resValue "string", "base_url", "\"${BASE_URL}\""
     }
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 
     buildTypes {
@@ -101,5 +110,6 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:4.12.0"
     implementation "org.jetbrains.kotlin:kotlin-test:2.0.21"
 
+    implementation "com.squareup.moshi:moshi-kotlin:1.15.1"
 
 }

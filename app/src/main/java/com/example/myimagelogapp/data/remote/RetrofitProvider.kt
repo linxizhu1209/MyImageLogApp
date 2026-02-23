@@ -1,30 +1,36 @@
 package com.example.myimagelogapp.data.remote
 
+import android.content.Context
+import com.example.myimagelogapp.R
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 object RetrofitProvider {
+    fun createImageApi(context: Context): ImageApi {
+        val baseUrl = context.getString(R.string.base_url)
 
-    private const val BASE_URL = "http://10.0.2.2:8080/" // 에뮬레이터 기준
-
-    private val client by lazy {
-        OkHttpClient.Builder()
-            .addInterceptor(
-                HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                }
-            ).build()
-    }
-
-    val imageApi: ImageApi by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(MoshiConverterFactory.create())
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
             .build()
-            .create(ImageApi::class.java)
-    }
 
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .build()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(client)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+
+        return retrofit.create(ImageApi::class.java)
+    }
 }

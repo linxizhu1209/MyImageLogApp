@@ -6,7 +6,9 @@ import com.example.myimagelogapp.data.repository.ImageRepository
 import com.example.myimagelogapp.viewModel.ImageRepositoryContract
 
 object UploadWorkerDeps {
-    var repoProvider: (Context) -> ImageRepositoryContract = {
-        ImageRepository(RetrofitProvider.imageApi)
+    var repoProvider: (Context) -> ImageRepositoryContract = { context ->
+        ImageRepository(
+            api = RetrofitProvider.createImageApi(context)
+        )
     }
 }

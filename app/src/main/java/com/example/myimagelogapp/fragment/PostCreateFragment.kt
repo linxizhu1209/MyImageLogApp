@@ -2,17 +2,21 @@ package com.example.myimagelogapp.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import androidx.work.impl.WorkManagerImpl
 import androidx.work.workDataOf
 import com.example.myimagelogapp.R
 import com.example.myimagelogapp.adapter.PhotoPreviewAdapter
@@ -35,9 +39,8 @@ class PostCreateFragment : Fragment(R.layout.fragment_post_create) {
 
     private val vm: PostCreateViewModel by viewModels()
     private val imageVm: ImageViewModel by lazy {
-        ImageViewModel(
-            ImageRepository(RetrofitProvider.imageApi)
-        )
+        val api = RetrofitProvider.createImageApi(requireContext())
+        ImageViewModel(ImageRepository(api))
     }
     private lateinit var adapter: PhotoPreviewAdapter
 
@@ -109,7 +112,7 @@ class PostCreateFragment : Fragment(R.layout.fragment_post_create) {
                         UploadWorker.KEY_TITLE to title,
                         UploadWorker.KEY_CONTENT to content,
                         UploadWorker.KEY_PHOTO_COUNT to photoCount,
-                        UploadWorker.KEY_FAIL_UNTIL_ATTEMPT to 2,
+                        UploadWorker.KEY_FAIL_UNTIL_ATTEMPT to 0,
                         UploadWorker.KEY_USER_ID to userId,
                         UploadWorker.KEY_URIS to uriStrings.toTypedArray()
                     )
@@ -119,6 +122,30 @@ class PostCreateFragment : Fragment(R.layout.fragment_post_create) {
 
             WorkManager.getInstance(requireContext()).enqueue(request)
 
+            WorkManager.getInstance(requireContext())
+                .getWorkInfoByIdLiveData(request.id)
+                .observe(viewLifecycleOwner) { info ->
+                    if (info == null) return@observe
+
+                    when (info.state) {
+                        WorkInfo.State.SUCCEEDED -> {
+                            val resultJson = info.outputData.getString(UploadWorker.KEY_RESULT_JSON)
+                            Toast.makeText(requireContext(), "업로드 성공!", Toast.LENGTH_SHORT).show()
+
+                            findNavController().popBackStack()
+                        }
+
+                        WorkInfo.State.FAILED -> {
+                            Toast.makeText(requireContext(), "업로드 실패", Toast.LENGTH_SHORT).show()
+                        }
+
+                        WorkInfo.State.CANCELLED -> {
+                            Toast.makeText(requireContext(), "업로드 취소됨", Toast.LENGTH_SHORT).show()
+                        }
+
+                        else -> Unit
+                    }
+                }
         }
     }
 
