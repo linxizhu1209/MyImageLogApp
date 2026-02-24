@@ -1,8 +1,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme (민트 계열 라이트). -->
     <style name="Base.Theme.MyImageLogApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/mint_primary</item>
+        <item name="colorPrimaryVariant">@color/mint_primary_variant</item>
+        <item name="colorSecondary">@color/mint_secondary</item>
+        <item name="android:colorBackground">@color/mint_surface</item>
+        <item name="colorSurface">@color/mint_surface</item>
+        <item name="colorOnPrimary">@color/mint_on_primary</item>
+        <item name="colorOnSurface">@color/mint_on_surface</item>
+        <item name="colorOutline">@color/mint_outline</item>
     </style>
 
     <style name="Theme.MyImageLogApp" parent="Base.Theme.MyImageLogApp" />

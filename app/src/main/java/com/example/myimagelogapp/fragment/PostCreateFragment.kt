@@ -65,6 +65,9 @@ class PostCreateFragment : Fragment(R.layout.fragment_post_create) {
                 PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
             )
         }
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
         vm.photos.observe(viewLifecycleOwner) { list ->
             adapter.submit(list)

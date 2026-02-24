@@ -2,4 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- 민트 계열 앱 컬러 -->
+    <color name="mint_primary">#FF4DB6A3</color>
+    <color name="mint_primary_variant">#FF3A9D8A</color>
+    <color name="mint_secondary">#FF7DD3C4</color>
+    <color name="mint_light">#FFE8F5F3</color>
+    <color name="mint_surface">#FFF5FAF9</color>
+    <color name="mint_on_primary">#FFFFFFFF</color>
+    <color name="mint_on_surface">#FF1A2E2A</color>
+    <color name="mint_outline">#FFB8D9D2</color>
 </resources>

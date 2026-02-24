@@ -1,26 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:fillViewport="true">
 
-    <Button
-        android:id="@+id/btn_create"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="글 작성" />
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <Button
-        android:id="@+id/btn_uploads"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="업로드 큐"
-        android:layout_marginTop="8dp" />
+        <Button
+            android:id="@+id/btn_create"
+            style="@style/Widget.MyImageLogApp.Button.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="글 작성"
+            android:textSize="16sp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Home"
-        android:layout_marginTop="16dp" />
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_uploads"
+            style="@style/Widget.MyImageLogApp.Button.Secondary"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:text="업로드 큐"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="이번 주 기록"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/mint_light"
+            android:minHeight="240dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_home_photos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingVertical="8dp" />
+
+            <TextView
+                android:id="@+id/tv_empty_this_week"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="24dp"
+                android:text="이번 주 기록이 없습니다\n기록을 시작해주세요 !"
+                android:textAlignment="center"
+                android:textColor="@color/mint_on_surface"
+                android:textSize="15sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </FrameLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 메인 버튼 스타일 (민트 primary, 둥근 모서리). -->
+    <style name="Widget.MyImageLogApp.Button.Primary" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@color/mint_primary</item>
+        <item name="android:textColor">@color/mint_on_primary</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+    <!-- 보조 버튼 (아웃라인). -->
+    <style name="Widget.MyImageLogApp.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="strokeColor">@color/mint_primary</item>
+        <item name="android:textColor">@color/mint_primary</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+</resources>
