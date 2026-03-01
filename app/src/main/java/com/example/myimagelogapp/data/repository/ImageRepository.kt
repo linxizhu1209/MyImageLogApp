@@ -1,6 +1,8 @@
 package com.example.myimagelogapp.data.repository
 
 import com.example.myimagelogapp.data.remote.ImageApi
+import com.example.myimagelogapp.data.remote.PostDetailDtos
+import com.example.myimagelogapp.data.remote.UpdatePostRequest
 import com.example.myimagelogapp.data.remote.UploadResultDto
 import com.example.myimagelogapp.data.remote.WeekImagesResponseDto
 import com.example.myimagelogapp.viewModel.ImageRepositoryContract
@@ -32,5 +34,16 @@ class ImageRepository(
         userId: Long
     ): WeekImagesResponseDto {
         return api.getThisWeek(userId)
+    }
+
+    override suspend fun getPostDetail(imageId: Long): PostDetailDtos? =
+        runCatching { api.getPostDetail(imageId) }.getOrNull()
+
+    override suspend fun updatePost(
+        imageId: Long,
+        title: String,
+        content: String
+    ) {
+        api.updatePost(imageId, UpdatePostRequest(title, content))
     }
 }

@@ -32,7 +32,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         _binding = FragmentHomeBinding.bind(view)
 
         // recyclerview 좌우 스크롤
-        adapter = HomeImageAdapter(baseUrl = requireContext().getString(R.string.base_url).trim().removeSurrounding("\""))
+        adapter = HomeImageAdapter(baseUrl = requireContext().getString(R.string.base_url).trim().removeSurrounding("\"")) {
+            item ->
+            val bundle = Bundle().apply {
+                putLong("imageId", item.id)
+                putString("imageUrl", item.url)
+                putString("dateText", item.dateText)
+            }
+            findNavController().navigate(R.id.postDetailFragment, bundle)
+        }
         binding.rvHomePhotos.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvHomePhotos.adapter = adapter

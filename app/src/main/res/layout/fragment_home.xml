@@ -17,7 +17,7 @@
             style="@style/Widget.MyImageLogApp.Button.Primary"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="글 작성"
+            android:text="@string/create_post"
             android:textSize="16sp" />
 
         <Button
@@ -26,14 +26,14 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
-            android:text="업로드 큐"
+            android:text="@string/upload_queue"
             android:textSize="14sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="이번 주 기록"
+            android:text="@string/week_log"
             android:textColor="?attr/colorOnSurface"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -58,7 +58,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:padding="24dp"
-                android:text="이번 주 기록이 없습니다\n기록을 시작해주세요 !"
+                android:text="@string/empty_week_log"
                 android:textAlignment="center"
                 android:textColor="@color/mint_on_surface"
                 android:textSize="15sp"

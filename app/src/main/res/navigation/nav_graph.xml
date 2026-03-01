@@ -16,6 +16,10 @@
         <action
             android:id="@+id/action_home_to_uploadQueue"
             app:destination="@id/uploadQueueFragment" />
+
+        <action
+            android:id="@+id/action_home_to_post_detail"
+            app:destination="@id/postDetailFragment" />
     </fragment>
 
     <fragment
@@ -27,4 +31,22 @@
         android:id="@+id/uploadQueueFragment"
         android:name="com.example.myimagelogapp.fragment.UploadQueueFragment"
         android:label="Uploads" />
+
+    <fragment
+        android:id="@+id/postDetailFragment"
+        android:name="com.example.myimagelogapp.fragment.PostDetailFragment"
+        android:label="글 보기">
+        <argument
+            android:name="imageId"
+            app:argType="long"
+            android:defaultValue="0L" />
+        <argument
+            android:name="imageUrl"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="dateText"
+            app:argType="string"
+            android:defaultValue="" />
+    </fragment>
 </navigation>

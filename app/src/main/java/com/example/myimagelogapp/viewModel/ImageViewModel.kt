@@ -2,6 +2,7 @@ package com.example.myimagelogapp.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myimagelogapp.data.remote.PostDetailDtos
 import com.example.myimagelogapp.data.remote.UploadResultDto
 import com.example.myimagelogapp.data.remote.WeekImagesResponseDto
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -69,4 +70,6 @@ class ImageViewModel(
 interface ImageRepositoryContract {
     suspend fun upload(userId: Long, files: List<File>): UploadResultDto
     suspend fun loadThisWeek(userId: Long): WeekImagesResponseDto
+    suspend fun getPostDetail(imageId: Long): PostDetailDtos?
+    suspend fun updatePost(imageId: Long, title: String, content: String)
 }

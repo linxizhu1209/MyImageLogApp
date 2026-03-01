@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">MyImageLogApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_post">글 작성</string>
+    <string name="edit_post">수정하기</string>
+    <string name="post_title">제목</string>
+    <string name="post_content">내용</string>
+    <string name="back_page">뒤로가기</string>
+    <string name="upload_queue">업로드 큐</string>
+    <string name="week_log">이번 주 기록</string>
+    <string name="empty_week_log">이번 주 기록이 없습니다\n기록을 시작해주세요 !</string>
+    <string name="photo_select">사진 선택</string>
+    <string name="upload_post">업로드</string>
+
+
 </resources>

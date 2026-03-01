@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id 'org.jetbrains.kotlin.kapt'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 def props = new Properties()
@@ -44,6 +45,12 @@ android {
     }
     kotlinOptions {
         jvmTarget = '17'
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs += file("$buildDir/generated/java/generateSafeArgsDebug")
+        }
     }
 }
 
