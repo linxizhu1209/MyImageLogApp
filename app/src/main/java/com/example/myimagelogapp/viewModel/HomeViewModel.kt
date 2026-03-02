@@ -32,8 +32,8 @@ class HomeViewModel(
     val state: StateFlow<HomeUiState> = _state.asStateFlow()
 
     fun loadThisWeek(userId: Long) {
+        _state.value = HomeUiState.Loading
         viewModelScope.launch {
-            _state.value = HomeUiState.Loading
             runCatching {
                 repo.loadThisWeek(userId)
             }.onSuccess { res ->
