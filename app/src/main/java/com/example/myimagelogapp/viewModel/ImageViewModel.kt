@@ -20,11 +20,11 @@ class ImageViewModel(
     private val _state = MutableStateFlow<ImageUiState>(ImageUiState.Idle)
     val state: StateFlow<ImageUiState> = _state.asStateFlow()
 
-    fun uploadImages(userId: Long, files: List<File>) {
+    fun uploadImages(userId: Long, title: String?, content: String?, files: List<File>) {
         viewModelScope.launch {
             _state.value = ImageUiState.Loading
             try {
-                val res = repo.upload(userId, files)
+                val res = repo.upload(userId, title, content, files)
                 _state.value = ImageUiState.UploadSuccess(res)
             } catch (e: HttpException) {
                 _state.value = ImageUiState.Error(
@@ -68,7 +68,7 @@ class ImageViewModel(
 }
 
 interface ImageRepositoryContract {
-    suspend fun upload(userId: Long, files: List<File>): UploadResultDto
+    suspend fun upload(userId: Long, title: String?, content: String?, files: List<File>): UploadResultDto
     suspend fun loadThisWeek(userId: Long): WeekImagesResponseDto
     suspend fun getPostDetail(imageId: Long): PostDetailDtos?
     suspend fun updatePost(imageId: Long, title: String, content: String)

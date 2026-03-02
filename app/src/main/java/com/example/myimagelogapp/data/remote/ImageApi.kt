@@ -16,6 +16,8 @@ interface ImageApi {
     @POST("api/images/upload")
     suspend fun uploadImages(
         @Query("userId") userId: Long,
+        @Query("title") title: String?,
+        @Query("content") content: String?,
         @Part files: List<MultipartBody.Part>
     ): UploadResultDto
 

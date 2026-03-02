@@ -131,7 +131,7 @@ class UploadWorker(
         return try {
             Log.d("UploadWorker", "calling repo.upload() files=${files.size}")
             setForeground(createForegroundInfo(title, 40, "uploading..."))
-            val res = repo.upload(userId, files) // 서버의 upload 호출
+            val res = repo.upload(userId, title, content, files) // 서버의 upload 호출
 
             val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
             val type = Types.newParameterizedType(List::class.java, UploadItemDto::class.java)

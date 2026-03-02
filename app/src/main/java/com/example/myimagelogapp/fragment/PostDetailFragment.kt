@@ -35,29 +35,43 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentPostDetailBinding.bind(view)
 
-        val imageUrl = args.imageUrl
-        val baseUrl = requireContext().getString(R.string.base_url).trim().removeSurrounding("\"")
-        val loadUrl = resolveImageUrl(imageUrl, baseUrl)
-
-        binding.ivDetailPhoto.load(loadUrl) { crossfade(true) }
         binding.tvDetailDate.text = args.dateText
 
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
 
         viewLifecycleOwner.lifecycleScope.launch {
+            vm.loadPost(args.imageId)
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
             vm.postData.collect { data ->
+                android.util.Log.d("PostDetail", "postData collected: $data")
                 if (data != null) {
                     binding.etTitle.setText(data.title)
                     binding.etContent.setText(data.content)
 
                     binding.tvCreatedAt.text = "작성: ${formatDateTime(data.createdAt)}"
                     binding.tvUpdatedAt.text = "수정: ${formatDateTime(data.updatedAt)}"
+
+                    val imageUrl = data.imageUrl
+                    android.util.Log.d("PostDetail", "imageUrl: $imageUrl")
+                    if (!imageUrl.isNullOrBlank()) {
+                        binding.ivDetailPhoto.load(imageUrl) {
+                            crossfade(true)
+                            listener(
+                                onError = { _, result ->
+                                    android.util.Log.e("PostDetail", "이미지 로드 실패: $imageUrl", result.throwable)
+                                },
+                                onSuccess = { _, _ ->
+                                    android.util.Log.d("PostDetail", "이미지 로드 성공: $imageUrl")
+                                }
+                            )
+                        }
+                    } else {
+                        android.util.Log.e("PostDetail", "imageUrl이 null 또는 빈 문자열")
+                    }
                 }
             }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            vm.loadPost(args.imageId)
         }
 
         binding.btnUpdate.setOnClickListener {

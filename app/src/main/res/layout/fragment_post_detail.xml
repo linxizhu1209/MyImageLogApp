@@ -26,10 +26,11 @@
         <ImageView
             android:id="@+id/iv_detail_photo"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="280dp"
             android:layout_marginTop="8dp"
-            android:scaleType="centerCrop"
-            app:tint="@color/mint_light" />
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="@color/mint_light" />
 
         <TextView
             android:id="@+id/tv_detail_date"

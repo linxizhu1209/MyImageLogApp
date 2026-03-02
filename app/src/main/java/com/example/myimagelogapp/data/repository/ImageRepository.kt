@@ -17,6 +17,8 @@ class ImageRepository(
 
     suspend override fun upload(
         userId: Long,
+        title: String?,
+        content: String?,
         files: List<File>
     ): UploadResultDto {
         val parts = files.map { file ->
@@ -26,7 +28,7 @@ class ImageRepository(
                         body = file.asRequestBody("image/*".toMediaType())
                     )
                 }
-        return api.uploadImages(userId, parts)
+        return api.uploadImages(userId, title, content,parts)
     }
 
 

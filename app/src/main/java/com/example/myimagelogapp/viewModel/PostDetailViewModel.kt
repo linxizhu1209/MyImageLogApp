@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 data class PostDetailData(
     val title: String?,
     val content: String?,
+    val imageUrl: String?,
     val createdAt: String?,
     val updatedAt: String?
 )
@@ -41,6 +42,7 @@ class PostDetailViewModel(
                 _postData.value = PostDetailData(
                     title = dto.title,
                     content = dto.content,
+                    imageUrl = dto.imageUrl,
                     createdAt = dto.createdAt,
                     updatedAt = dto.updatedAt
                 )
