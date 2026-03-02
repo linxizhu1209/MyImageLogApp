@@ -2,6 +2,7 @@ package com.example.myimagelogapp.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myimagelogapp.data.remote.StockNewsDto
 import com.example.myimagelogapp.data.remote.WeekImagesResponseDto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,12 +26,27 @@ sealed interface HomeUiState {
     data class Error(val message: String) : HomeUiState
 }
 
+/**
+ * 뉴스 UI 상태
+ */
+sealed interface NewsUiState {
+    data object Idle: NewsUiState
+    data object Loading: NewsUiState
+    data class Success(val news: List<StockNewsDto>) : NewsUiState
+    data class Error(val message: String) : NewsUiState
+}
+
 class HomeViewModel(
     private val repo: ImageRepositoryContract
 ) : ViewModel() {
+
+    // 이미지 상태
     private val _state = MutableStateFlow<HomeUiState>(HomeUiState.Idle)
     val state: StateFlow<HomeUiState> = _state.asStateFlow()
 
+    // 뉴스 상태
+    private val _newsState = MutableStateFlow<NewsUiState>(NewsUiState.Idle)
+    val newsState: StateFlow<NewsUiState> = _newsState.asStateFlow()
     fun loadThisWeek(userId: Long) {
         _state.value = HomeUiState.Loading
         viewModelScope.launch {
@@ -41,6 +57,22 @@ class HomeViewModel(
                 _state.value = HomeUiState.Success(items)
             }.onFailure { e ->
                 _state.value = HomeUiState.Error(e.message ?: "Unknown error")
+            }
+        }
+    }
+
+    /**
+     * 오늘의 해외주식 뉴스 로드
+     */
+    fun loadTodayNews() {
+        _newsState.value = NewsUiState.Loading
+        viewModelScope.launch {
+            runCatching {
+                repo.getTodayNews()
+            }.onSuccess { res ->
+                _newsState.value = NewsUiState.Success(res.news)
+            }.onFailure { e ->
+                _newsState.value = NewsUiState.Error(e.message ?: "뉴스 로드 실패")
             }
         }
     }

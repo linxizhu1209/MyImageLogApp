@@ -40,4 +40,7 @@ interface ImageApi {
         @Path("id") imageId: Long,
         @Body body: UpdatePostRequest
     ): Unit
+
+    @GET("api/news/today")
+    suspend fun getTodayNews(): TodayNewsResponseDto
 }

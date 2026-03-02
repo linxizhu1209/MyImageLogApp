@@ -2,6 +2,7 @@ package com.example.myimagelogapp.data.repository
 
 import com.example.myimagelogapp.data.remote.ImageApi
 import com.example.myimagelogapp.data.remote.PostDetailDtos
+import com.example.myimagelogapp.data.remote.TodayNewsResponseDto
 import com.example.myimagelogapp.data.remote.UpdatePostRequest
 import com.example.myimagelogapp.data.remote.UploadResultDto
 import com.example.myimagelogapp.data.remote.WeekImagesResponseDto
@@ -48,4 +49,6 @@ class ImageRepository(
     ) {
         api.updatePost(imageId, UpdatePostRequest(title, content))
     }
+
+    override suspend fun getTodayNews(): TodayNewsResponseDto = api.getTodayNews()
 }

@@ -10,6 +10,7 @@
     <string name="empty_week_log">이번 주 기록이 없습니다\n기록을 시작해주세요 !</string>
     <string name="photo_select">사진 선택</string>
     <string name="upload_post">업로드</string>
-
-
+    <string name="today_stock_news">오늘의 해외주식 이슈</string>
+    <string name="no_news_today">오늘의 뉴스가 없습니다</string>
+    <string name="news_loading">뉴스를 불러오는 중...</string>
 </resources>

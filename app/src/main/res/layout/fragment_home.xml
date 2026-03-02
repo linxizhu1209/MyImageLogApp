@@ -65,5 +65,53 @@
                 android:visibility="gone"
                 tools:visibility="visible" />
         </FrameLayout>
+
+        <!-- 오늘의 해외주식 이슈 섹션 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/today_stock_news"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@color/mint_light"
+            android:minHeight="200dp"
+            android:padding="12dp">
+
+            <!-- 뉴스 목록-->
+            <LinearLayout
+                android:id="@+id/ll_news_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_news_loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/news_loading"
+                android:textSize="14sp"
+                android:textColor="@color/mint_on_surface"
+                android:visibility="gone" />
+
+            <!-- 뉴스 없음 -->
+            <TextView
+                android:id="@+id/tv_news_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/no_news_today"
+                android:textColor="@color/mint_on_surface"
+                android:textSize="14sp"
+                android:visibility="gone" />
+        </FrameLayout>
     </LinearLayout>
 </ScrollView>
