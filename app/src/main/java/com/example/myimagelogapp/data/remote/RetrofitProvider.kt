@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 
 object RetrofitProvider {
     fun createImageApi(context: Context): ImageApi {
@@ -23,6 +24,9 @@ object RetrofitProvider {
 
         val client = OkHttpClient.Builder()
             .addInterceptor(logging)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(180, TimeUnit.SECONDS)   // 3분 (AI 요약 시간 고려)
+            .writeTimeout(60, TimeUnit.SECONDS)
             .build()
 
         val retrofit = Retrofit.Builder()

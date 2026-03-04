@@ -110,12 +110,22 @@ class HomeFragment : Fragment() {
             homeVm.newsState.collectLatest { state ->
                 when(state) {
                     NewsUiState.Loading -> {
+                        binding.tvNewsLoading.text = "AI가 뉴스를 분석 중입니다...\n잠시만 기다려주세요 (최대 2분)"
                         binding.tvNewsLoading.visibility = View.VISIBLE
                         binding.llNewsContainer.visibility = View.GONE
                         binding.tvNewsEmpty.visibility = View.GONE
+                        binding.llAiSummaryContainer.visibility = View.GONE
                     }
                     is NewsUiState.Success -> {
                         binding.tvNewsLoading.visibility = View.GONE
+
+                        if (!state.aiSummary.isNullOrBlank()) {
+                            binding.tvAiSummary.text = state.aiSummary
+                            binding.llAiSummaryContainer.visibility = View.VISIBLE
+                        } else {
+                            binding.llAiSummaryContainer.visibility = View.GONE
+                        }
+
                         if (state.news.isEmpty()) {
                             binding.llNewsContainer.visibility = View.GONE
                             binding.tvNewsEmpty.visibility = View.VISIBLE
@@ -127,6 +137,7 @@ class HomeFragment : Fragment() {
                     is NewsUiState.Error -> {
                         binding.tvNewsLoading.visibility = View.GONE
                         binding.llNewsContainer.visibility = View.GONE
+                        binding.llAiSummaryContainer.visibility = View.GONE
                         binding.tvNewsEmpty.visibility = View.VISIBLE
                         binding.tvNewsEmpty.text = state.message
                     }

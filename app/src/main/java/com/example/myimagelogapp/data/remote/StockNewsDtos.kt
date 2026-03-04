@@ -16,5 +16,6 @@ data class StockNewsDto(
  */
 data class TodayNewsResponseDto(
     val date: String,
+    val aiSummary: String?,
     val news: List<StockNewsDto>
 )

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myimagelogapp.data.remote.StockNewsDto
 import com.example.myimagelogapp.data.remote.WeekImagesResponseDto
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,7 +33,9 @@ sealed interface HomeUiState {
 sealed interface NewsUiState {
     data object Idle: NewsUiState
     data object Loading: NewsUiState
-    data class Success(val news: List<StockNewsDto>) : NewsUiState
+    data class Success(
+        val aiSummary: String?,
+        val news: List<StockNewsDto>) : NewsUiState
     data class Error(val message: String) : NewsUiState
 }
 
@@ -67,12 +70,27 @@ class HomeViewModel(
     fun loadTodayNews() {
         _newsState.value = NewsUiState.Loading
         viewModelScope.launch {
+            loadTodayNewsWithRetry(maxRetries = 24)
+        }
+    }
+
+    private suspend fun loadTodayNewsWithRetry(maxRetries: Int) {
+        repeat(maxRetries) { attempt ->
             runCatching {
                 repo.getTodayNews()
             }.onSuccess { res ->
-                _newsState.value = NewsUiState.Success(res.news)
+                if (res.news.isNotEmpty() || !res.aiSummary.isNullOrBlank()) {
+                    _newsState.value = NewsUiState.Success(res.aiSummary, res.news)
+                    return
+                }
+                if (attempt < maxRetries - 1) {
+                    delay(5000)
+                } else {
+                    _newsState.value = NewsUiState.Success(null, emptyList())
+                }
             }.onFailure { e ->
                 _newsState.value = NewsUiState.Error(e.message ?: "뉴스 로드 실패")
+                return
             }
         }
     }
