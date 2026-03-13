@@ -13,4 +13,5 @@
     <string name="today_stock_news">오늘의 해외주식 이슈</string>
     <string name="no_news_today">오늘의 뉴스가 없습니다</string>
     <string name="news_loading">뉴스를 불러오는 중...</string>
+    <string name="week_summary">이번 주 요약하기</string>
 </resources>

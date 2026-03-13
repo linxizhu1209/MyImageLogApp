@@ -11,6 +11,7 @@ if (localPropsFile.exists()) {
     props.load(localPropsFile.newDataInputStream())
 }
 def BASE_URL = props.getProperty("BASE_URL", "http://10.0.2.2:8081/")
+def STREAMLIT_URL = props.getProperty("STREAMLIT_URL", "http://10.0.2.2:8501")
 
 android {
     namespace 'com.example.myimagelogapp'
@@ -25,6 +26,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resValue "string", "base_url", "\"${BASE_URL}\""
+        resValue "string", "streamlit_url", "\"${STREAMLIT_URL}\""
     }
 
     buildFeatures {

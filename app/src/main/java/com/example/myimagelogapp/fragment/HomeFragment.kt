@@ -74,12 +74,18 @@ class HomeFragment : Fragment() {
         binding.rvHomePhotos.adapter = adapter
     }
 
+    /**
+     * 버튼 세팅
+     */
     private fun setupButtons() {
         binding.btnCreate.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_create)
         }
         binding.btnUploads.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_uploadQueue)
+        }
+        binding.btnWeekSummary.setOnClickListener {
+            openWeekSummaryStreamlit(userId = 1L)
         }
     }
 
@@ -178,5 +184,21 @@ class HomeFragment : Fragment() {
             binding.llNewsContainer.addView(itemView)
         }
         binding.llNewsContainer.visibility = View.VISIBLE
+    }
+
+    /**
+     * Streamlit 이번 주 요약 페이지를 브라우저/WebView로 여는 함수
+     * userId를 쿼리 파라미터로 전달
+     */
+    private fun openWeekSummaryStreamlit(userId: Long) {
+        val baseStreamlitUrl = requireContext().getString(R.string.streamlit_url).trim().removeSurrounding("\"")
+        val url = Uri.parse(baseStreamlitUrl).buildUpon()
+            .appendQueryParameter("userId", userId.toString())
+            .build()
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, url))
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "요약 페이지를 열 수 없습니다.", Toast.LENGTH_SHORT).show()
+        }
     }
 }

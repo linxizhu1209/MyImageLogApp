@@ -29,6 +29,15 @@
             android:text="@string/upload_queue"
             android:textSize="14sp" />
 
+        <Button
+            android:id="@+id/btn_week_summary"
+            style="@style/Widget.MyImageLogApp.Button.Secondary"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/week_summary"
+            android:textSize="14sp" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
