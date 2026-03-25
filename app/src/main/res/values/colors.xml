@@ -12,4 +12,8 @@
     <color name="mint_on_primary">#FFFFFFFF</color>
     <color name="mint_on_surface">#FF1A2E2A</color>
     <color name="mint_outline">#FFB8D9D2</color>
+
+    <!-- OAuth 버튼 컬러 -->
+    <color name="kakao_yellow">#FFFEE500</color>
+    <color name="kakao_brown">#FF3A1D1D</color>
 </resources>

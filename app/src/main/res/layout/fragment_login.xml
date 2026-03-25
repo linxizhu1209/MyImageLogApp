@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="로그인이 필요합니다"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="OAuth로 로그인하면 기록을 저장하고 불러올 수 있어요."
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_google_login"
+            style="@style/Widget.MyImageLogApp.Button.Secondary"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="24dp"
+            android:text="Google로 로그인"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_kakao_login"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/kakao_yellow"
+            android:text="Kakao로 로그인"
+            android:textColor="@color/kakao_brown"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</ScrollView>

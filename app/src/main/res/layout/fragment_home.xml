@@ -12,11 +12,31 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:backgroundTint="@color/mint_light"
+                android:minHeight="36dp"
+                android:minWidth="0dp"
+                android:paddingHorizontal="12dp"
+                android:text="@string/logout"
+                android:textColor="@color/mint_on_surface"
+                android:textSize="12sp" />
+        </LinearLayout>
+
         <Button
             android:id="@+id/btn_create"
             style="@style/Widget.MyImageLogApp.Button.Primary"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:layout_marginTop="12dp"
             android:text="@string/create_post"
             android:textSize="16sp" />
 

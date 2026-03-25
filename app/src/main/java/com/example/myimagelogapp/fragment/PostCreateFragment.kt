@@ -20,6 +20,7 @@ import androidx.work.impl.WorkManagerImpl
 import androidx.work.workDataOf
 import com.example.myimagelogapp.R
 import com.example.myimagelogapp.adapter.PhotoPreviewAdapter
+import com.example.myimagelogapp.auth.AuthSession
 import com.example.myimagelogapp.data.remote.RetrofitProvider
 import com.example.myimagelogapp.data.repository.ImageRepository
 import com.example.myimagelogapp.databinding.FragmentPostCreateBinding
@@ -36,7 +37,7 @@ class PostCreateFragment : Fragment(R.layout.fragment_post_create) {
 
     private var _binding: FragmentPostCreateBinding? = null
     private val binding get() = _binding!!
-
+    private var userId: Long = -1L
     private val vm: PostCreateViewModel by viewModels()
     private val imageVm: ImageViewModel by lazy {
         val api = RetrofitProvider.createImageApi(requireContext())
@@ -51,7 +52,9 @@ class PostCreateFragment : Fragment(R.layout.fragment_post_create) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         _binding = FragmentPostCreateBinding.bind(view)
+        userId = AuthSession.userId(requireContext())
 
         adapter = PhotoPreviewAdapter(onRemove = { uriString ->
             vm.removePhoto(uriString)
@@ -96,7 +99,7 @@ class PostCreateFragment : Fragment(R.layout.fragment_post_create) {
             val content = binding.etContent.text?.toString().orEmpty()
             val photoCount = vm.photos.value.orEmpty().size
 
-            val userId = 1L // todo 실제 로그인 유저 ID로 교체
+            val userId = userId
 
             val uriStrings = vm.photos.value.orEmpty()
 

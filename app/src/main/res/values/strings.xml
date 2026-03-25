@@ -14,4 +14,5 @@
     <string name="no_news_today">오늘의 뉴스가 없습니다</string>
     <string name="news_loading">뉴스를 불러오는 중...</string>
     <string name="week_summary">이번 주 요약하기</string>
+    <string name="logout">로그아웃</string>
 </resources>

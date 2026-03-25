@@ -24,6 +24,7 @@ import com.example.myimagelogapp.viewModel.NewsUiState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import androidx.core.net.toUri
+import com.example.myimagelogapp.auth.AuthSession
 
 class HomeFragment : Fragment() {
 
@@ -31,6 +32,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter : HomeImageAdapter
+    private var userId: Long = -1L
 
     private val homeVm: HomeViewModel by lazy {
         val api = RetrofitProvider.createImageApi(requireContext())
@@ -48,12 +50,17 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        userId = AuthSession.userId(requireContext())
         setupRecyclerView()
         setupButtons()
         observeImageState()
         observeNewsState()
 
-        homeVm.loadThisWeek(userId = 1L)
+        if (userId > 0L) {
+            homeVm.loadThisWeek(userId = userId)
+        } else {
+            Toast.makeText(requireContext(), "먼저 로그인 해주세요.", Toast.LENGTH_SHORT).show()
+        }
         homeVm.loadTodayNews()
     }
 
@@ -85,7 +92,17 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_home_to_uploadQueue)
         }
         binding.btnWeekSummary.setOnClickListener {
-            openWeekSummaryStreamlit(userId = 1L)
+            openWeekSummaryStreamlit(userId = userId)
+        }
+        binding.btnLogout.setOnClickListener {
+            AuthSession.clear(requireContext())
+            findNavController().navigate(
+                R.id.loginFragment,
+                null,
+                androidx.navigation.NavOptions.Builder()
+                    .setPopUpTo(R.id.homeFragment, true)
+                    .build()
+            )
         }
     }
 
