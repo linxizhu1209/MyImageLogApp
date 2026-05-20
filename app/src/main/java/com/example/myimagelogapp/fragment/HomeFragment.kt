@@ -3,6 +3,7 @@ package com.example.myimagelogapp.fragment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,11 +26,20 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import androidx.core.net.toUri
 import com.example.myimagelogapp.auth.AuthSession
+import com.example.myimagelogapp.data.repository.StockReportRepository
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private val stockReportRepo: StockReportRepository by lazy {
+        val api = RetrofitProvider.createStockReportApi(requireContext())
+        StockReportRepository(api, requireContext())
+    }
 
     private lateinit var adapter : HomeImageAdapter
     private var userId: Long = -1L
@@ -88,9 +98,6 @@ class HomeFragment : Fragment() {
         binding.btnCreate.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_create)
         }
-        binding.btnUploads.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_uploadQueue)
-        }
         binding.btnWeekSummary.setOnClickListener {
             openWeekSummaryStreamlit(userId = userId)
         }
@@ -103,6 +110,9 @@ class HomeFragment : Fragment() {
                     .setPopUpTo(R.id.homeFragment, true)
                     .build()
             )
+        }
+        binding.btnStockReportSubscribe.setOnClickListener {
+            showStockReportSubscribeDialog()
         }
     }
 
@@ -208,14 +218,79 @@ class HomeFragment : Fragment() {
      * userId를 쿼리 파라미터로 전달
      */
     private fun openWeekSummaryStreamlit(userId: Long) {
+        val token = AuthSession.token(requireContext())
+        if (token.isNullOrBlank() || userId < 0L) {
+            Toast.makeText(requireContext(), "로그인이 필요합니다!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val baseStreamlitUrl = requireContext().getString(R.string.streamlit_url).trim().removeSurrounding("\"")
-        val url = Uri.parse(baseStreamlitUrl).buildUpon()
+        val url = baseStreamlitUrl.toUri().buildUpon()
             .appendQueryParameter("userId", userId.toString())
+            .appendQueryParameter("token", token)
             .build()
         try {
             startActivity(Intent(Intent.ACTION_VIEW, url))
         } catch (e: Exception) {
             Toast.makeText(requireContext(), "요약 페이지를 열 수 없습니다.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun showStockReportSubscribeDialog() {
+        if (!AuthSession.isLoggedIn(requireContext())) {
+            Toast.makeText(requireContext(), R.string.stock_report_login_required, Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val dialogView = layoutInflater.inflate(R.layout.dialog_stock_report_subscription, null)
+        val etSymbol = dialogView.findViewById<TextInputEditText>(R.id.et_stock_symbol)
+        val etEmail = dialogView.findViewById<TextInputEditText>(R.id.et_stock_email)
+        val btnPublish = dialogView.findViewById<MaterialButton>(R.id.btn_dialog_publish)
+        val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btn_dialog_cancel)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            stockReportRepo.getSubscription()?.let { sub ->
+                etEmail.setText(sub.email)
+                etSymbol.setText(sub.symbols.joinToString(", "))
+            }
+        }
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.stock_report_dialog_title)
+            .setView(dialogView)
+            .setCancelable(true)
+            .create()
+        btnCancel.setOnClickListener { dialog.dismiss() }
+        btnPublish.setOnClickListener {
+            val symbolRaw = etSymbol.text?.toString()?.trim().orEmpty()
+            val email = etEmail.text?.toString()?.trim().orEmpty()
+            if (symbolRaw.isBlank()) {
+                Toast.makeText(requireContext(), R.string.stock_report_invalid_symbol, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(requireContext(), R.string.stock_report_invalid_email, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            // 쉼표로 여러 종목 입력 가능 (서버 최대 10개)
+            val symbols = symbolRaw.split(",")
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
+            btnPublish.isEnabled = false
+            viewLifecycleOwner.lifecycleScope.launch {
+                runCatching {
+                    stockReportRepo.subscribe(email, symbols)
+                }.onSuccess {
+                    Toast.makeText(requireContext(), R.string.stock_report_success, Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                }.onFailure { e ->
+                    val msg = e.message?.takeIf { it.isNotBlank() }
+                        ?: getString(R.string.stock_report_failed)
+                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+                }
+                btnPublish.isEnabled = true
+            }
+        }
+        dialog.show()
     }
 }

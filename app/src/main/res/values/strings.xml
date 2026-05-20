@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MyImageLogApp</string>
-    <string name="create_post">글 작성</string>
+    <string name="create_post">기록하기</string>
     <string name="edit_post">수정하기</string>
     <string name="post_title">제목</string>
     <string name="post_content">내용</string>
@@ -13,6 +13,21 @@
     <string name="today_stock_news">오늘의 해외주식 이슈</string>
     <string name="no_news_today">오늘의 뉴스가 없습니다</string>
     <string name="news_loading">뉴스를 불러오는 중...</string>
-    <string name="week_summary">이번 주 요약하기</string>
+    <string name="week_summary">AI 이번 주 요약 한눈에 보기</string>
     <string name="logout">로그아웃</string>
+    <string name="login">로그인</string>
+    <string name="login_description">구글 또는 카카오로 로그인 후 기록을 시작하세요 !</string>
+    <string name="oauth_google">Google 로그인</string>
+    <string name="oauth_kakao">Kakao 로그인</string>
+    <string name="stock_report_subscribe">국내주식리포트구독</string>
+    <string name="stock_report_dialog_title">국내주식 리포트 구독</string>
+    <string name="stock_report_symbol_hint">국내주식 명칭 (예: 삼성전자)</string>
+    <string name="stock_report_email_hint">리포트 수신 이메일</string>
+    <string name="stock_report_publish">발행하기</string>
+    <string name="stock_report_cancel">취소</string>
+    <string name="stock_report_success">구독이 등록되었습니다.</string>
+    <string name="stock_report_login_required">로그인이 필요합니다.</string>
+    <string name="stock_report_invalid_email">올바른 이메일을 입력해주세요.</string>
+    <string name="stock_report_invalid_symbol">주식 명칭을 입력해주세요.</string>
+    <string name="stock_report_failed">구독 등록에 실패했습니다.</string>
 </resources>
