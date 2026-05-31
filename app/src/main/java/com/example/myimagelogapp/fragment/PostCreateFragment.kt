@@ -20,6 +20,7 @@ import androidx.work.impl.WorkManagerImpl
 import androidx.work.workDataOf
 import com.example.myimagelogapp.R
 import com.example.myimagelogapp.adapter.PhotoPreviewAdapter
+import com.example.myimagelogapp.auth.AuthNavigator
 import com.example.myimagelogapp.auth.AuthSession
 import com.example.myimagelogapp.data.remote.RetrofitProvider
 import com.example.myimagelogapp.data.repository.ImageRepository
@@ -54,6 +55,8 @@ class PostCreateFragment : Fragment(R.layout.fragment_post_create) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentPostCreateBinding.bind(view)
+        if (AuthNavigator.redirectToLoginIfNeeded(this)) return
+
         userId = AuthSession.userId(requireContext())
 
         adapter = PhotoPreviewAdapter(onRemove = { uriString ->

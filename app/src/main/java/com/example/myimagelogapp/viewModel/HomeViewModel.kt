@@ -3,6 +3,7 @@ package com.example.myimagelogapp.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myimagelogapp.data.remote.StockNewsDto
+import com.example.myimagelogapp.data.remote.ApiErrorMapper
 import com.example.myimagelogapp.data.remote.WeekImagesResponseDto
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +25,7 @@ sealed interface HomeUiState {
     data object Idle : HomeUiState
     data object Loading : HomeUiState
     data class Success(val items: List<HomeImageUiItem>) : HomeUiState
-    data class Error(val message: String) : HomeUiState
+    data class Error(val message: String, val requiresLogin: Boolean = false) : HomeUiState
 }
 
 /**
@@ -36,7 +37,7 @@ sealed interface NewsUiState {
     data class Success(
         val aiSummary: String?,
         val news: List<StockNewsDto>) : NewsUiState
-    data class Error(val message: String) : NewsUiState
+    data class Error(val message: String, val requiresLogin: Boolean = false) : NewsUiState
 }
 
 class HomeViewModel(
@@ -59,13 +60,17 @@ class HomeViewModel(
                 val items = res.toHomeUiItemSorted()
                 _state.value = HomeUiState.Success(items)
             }.onFailure { e ->
-                _state.value = HomeUiState.Error(e.message ?: "Unknown error")
+                _state.value = HomeUiState.Error(
+                    message = ApiErrorMapper.message(e),
+                    requiresLogin = ApiErrorMapper.isAuthError(e)
+                )
             }
         }
     }
 
     /**
-     * 오늘의 해외주식 뉴스 로드
+     * 오늘의 해외주식 뉴스 로드.
+     * 서버가 n8n 비동기 호출 후 빈 응답을 주면 최대 2분 동안 5초 간격으로 재요청.
      */
     fun loadTodayNews() {
         _newsState.value = NewsUiState.Loading
@@ -89,7 +94,10 @@ class HomeViewModel(
                     _newsState.value = NewsUiState.Success(null, emptyList())
                 }
             }.onFailure { e ->
-                _newsState.value = NewsUiState.Error(e.message ?: "뉴스 로드 실패")
+                _newsState.value = NewsUiState.Error(
+                    message = ApiErrorMapper.message(e),
+                    requiresLogin = ApiErrorMapper.isAuthError(e)
+                )
                 return
             }
         }

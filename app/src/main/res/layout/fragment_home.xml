@@ -4,41 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
+    android:background="@color/mint_surface"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="18dp">
 
+        <!-- 상단: 평가 + 국내주식리포트구독 (왼쪽) | 로그아웃 (오른쪽) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical|end"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_stock_report_subscribe"
-                style="@style/Widget.MyImageLogApp.Button.Secondary"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginEnd="8dp"
-                android:minWidth="0dp"
-                android:paddingHorizontal="12dp"
-                android:text="@string/stock_report_subscribe"
-                android:textSize="12sp" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_praise"
+                    style="@style/Widget.MyImageLogApp.Button.Pill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minWidth="0dp"
+                    android:text="@string/praise_short"
+                    app:icon="@drawable/ic_praise"
+                    app:iconGravity="textStart" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_stock_report_subscribe"
+                    style="@style/Widget.MyImageLogApp.Button.Pill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="6dp"
+                    android:minWidth="0dp"
+                    android:maxLines="2"
+                    android:text="@string/stock_report_subscribe"
+                    android:textSize="9sp"
+                    app:icon="@drawable/ic_domestic_report"
+                    app:iconGravity="textStart"
+                    app:iconSize="16dp" />
+            </LinearLayout>
 
             <ImageButton
                 android:id="@+id/btn_logout"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
+                android:layout_marginStart="8dp"
                 android:background="@drawable/bg_logout_button"
                 android:contentDescription="@string/logout"
                 android:padding="10dp"
                 android:src="@drawable/ic_logout"
-                android:tint="@color/mint_primary" />
+                app:tint="@color/mint_primary" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -46,14 +69,15 @@
             style="@style/Widget.MyImageLogApp.Button.Primary"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:text="@string/week_summary"
             android:textSize="14sp"
             app:icon="@drawable/ic_auto_awesome"
+            app:iconGravity="textStart"
             app:iconPadding="10dp"
-            app:iconTint="@color/mint_on_primary"
-            app:iconGravity="textStart" />
+            app:iconTint="@color/mint_on_primary" />
 
+        <!-- 이번 주 기록 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,76 +85,113 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_week_log"
+                app:tint="@color/mint_primary" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:text="@string/week_log"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="@color/mint_on_surface"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_create"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:contentDescription="@string/create_post"
-                android:padding="8dp"
-                android:src="@drawable/ic_edit"
-                android:tint="@color/mint_primary_variant" />
+                app:backgroundTint="@color/mint_light"
+                app:icon="@drawable/ic_edit"
+                app:iconSize="22dp"
+                app:iconTint="@color/mint_primary_variant" />
         </LinearLayout>
 
-        <FrameLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="240dp"
             android:layout_marginTop="12dp"
-            android:background="@color/mint_light"
-            android:minHeight="240dp">
+            app:cardBackgroundColor="@color/mint_light"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/mint_outline"
+            app:strokeWidth="1dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_home_photos"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingVertical="8dp" />
+                android:minHeight="240dp">
 
-            <TextView
-                android:id="@+id/tv_empty_this_week"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="24dp"
-                android:text="@string/empty_week_log"
-                android:textAlignment="center"
-                android:textColor="@color/mint_on_surface"
-                android:textSize="15sp"
-                android:visibility="gone"
-                tools:visibility="visible" />
-        </FrameLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_home_photos"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="10dp" />
 
-        <TextView
+                <TextView
+                    android:id="@+id/tv_empty_this_week"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="24dp"
+                    android:text="@string/empty_week_log"
+                    android:textAlignment="center"
+                    android:textColor="@color/mint_on_surface"
+                    android:textSize="15sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 오늘의 해외주식 이슈 -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="@string/today_stock_news"
-            android:textColor="?attr/colorOnSurface"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="26dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_stock_news"
+                app:tint="@color/mint_primary" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/today_stock_news"
+                android:textColor="@color/mint_on_surface"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_ai_summary_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_ai_summary_round"
             android:orientation="vertical"
-            android:background="@color/mint_primary_variant"
             android:padding="14dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="✨ AI 요약"
+                android:text="@string/ai_summary_label"
                 android:textColor="@color/mint_on_primary"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -140,45 +201,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:lineSpacingExtra="4dp"
                 android:textColor="@color/mint_on_primary"
-                android:textSize="13sp"
-                android:lineSpacingExtra="4dp" />
+                android:textSize="13sp" />
         </LinearLayout>
 
-        <FrameLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@color/mint_light"
-            android:minHeight="200dp"
-            android:padding="12dp">
+            app:cardBackgroundColor="@color/mint_light"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/mint_outline"
+            app:strokeWidth="1dp">
 
-            <LinearLayout
-                android:id="@+id/ll_news_container"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone" />
+                android:minHeight="200dp"
+                android:padding="14dp">
 
-            <TextView
-                android:id="@+id/tv_news_loading"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/news_loading"
-                android:textSize="14sp"
-                android:textColor="@color/mint_on_surface"
-                android:visibility="gone" />
+                <LinearLayout
+                    android:id="@+id/ll_news_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/tv_news_empty"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/no_news_today"
-                android:textColor="@color/mint_on_surface"
-                android:textSize="14sp"
-                android:visibility="gone" />
-        </FrameLayout>
+                <TextView
+                    android:id="@+id/tv_news_loading"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/news_loading"
+                    android:textColor="@color/mint_on_surface"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_news_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/no_news_today"
+                    android:textColor="@color/mint_on_surface"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </ScrollView>

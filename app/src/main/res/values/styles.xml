@@ -1,15 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 메인 버튼 스타일 (민트 primary, 둥근 모서리). -->
     <style name="Widget.MyImageLogApp.Button.Primary" parent="Widget.Material3.Button">
         <item name="android:backgroundTint">@color/mint_primary</item>
         <item name="android:textColor">@color/mint_on_primary</item>
-        <item name="cornerRadius">12dp</item>
+        <item name="cornerRadius">20dp</item>
+        <item name="android:minHeight">52dp</item>
     </style>
-    <!-- 보조 버튼 (아웃라인). -->
+
     <style name="Widget.MyImageLogApp.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
         <item name="strokeColor">@color/mint_primary</item>
         <item name="android:textColor">@color/mint_primary</item>
-        <item name="cornerRadius">12dp</item>
+        <item name="cornerRadius">20dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
+    <style name="Widget.MyImageLogApp.Button.Pill" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/mint_primary</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:paddingHorizontal">10dp</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:background">@drawable/bg_pill_chip</item>
+        <item name="backgroundTint">@null</item>
+        <item name="iconTint">@color/mint_primary</item>
+        <item name="iconSize">18dp</item>
+        <item name="iconPadding">6dp</item>
+        <item name="cornerRadius">24dp</item>
+    </style>
+
+    <style name="Widget.MyImageLogApp.TextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+        <item name="boxStrokeColor">@color/mint_outline</item>
+        <item name="hintTextColor">@color/mint_primary_variant</item>
+        <item name="boxBackgroundColor">@color/mint_surface</item>
+    </style>
+
+    <!-- 다이얼로그: 라벨 분리 + 흰 배경 + 진한 글자 -->
+    <style name="Widget.MyImageLogApp.TextInput.Dialog" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">14dp</item>
+        <item name="boxCornerRadiusTopEnd">14dp</item>
+        <item name="boxCornerRadiusBottomStart">14dp</item>
+        <item name="boxCornerRadiusBottomEnd">14dp</item>
+        <item name="boxStrokeColor">@color/mint_primary_variant</item>
+        <item name="boxBackgroundColor">@color/input_box_fill</item>
+        <item name="hintEnabled">false</item>
+    </style>
+
+    <style name="Widget.MyImageLogApp.TextInput.EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/input_text</item>
+        <item name="android:textColorHint">@color/input_hint</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Widget.MyImageLogApp.DialogFieldLabel" parent="">
+        <item name="android:textColor">@color/input_label</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

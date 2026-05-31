@@ -3,34 +3,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/mint_surface"
     android:orientation="vertical"
     android:padding="20dp">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <TextView
+        style="@style/Widget.MyImageLogApp.DialogFieldLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/stock_report_symbol_hint"
+        android:labelFor="@+id/et_stock_symbol"
+        android:text="@string/stock_report_symbol_label" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MyImageLogApp.TextInput.Dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
         app:boxBackgroundMode="outline">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_stock_symbol"
+            style="@style/Widget.MyImageLogApp.TextInput.EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/stock_report_symbol_placeholder"
             android:inputType="text"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <TextView
+        style="@style/Widget.MyImageLogApp.DialogFieldLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:hint="@string/stock_report_email_hint"
+        android:layout_marginTop="16dp"
+        android:labelFor="@+id/et_stock_email"
+        android:text="@string/stock_report_email_label" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MyImageLogApp.TextInput.Dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
         app:boxBackgroundMode="outline">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_stock_email"
+            style="@style/Widget.MyImageLogApp.TextInput.EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/stock_report_email_placeholder"
             android:inputType="textEmailAddress"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -38,7 +59,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="22dp"
         android:gravity="end"
         android:orientation="horizontal">
 

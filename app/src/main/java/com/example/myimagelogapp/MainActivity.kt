@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
+import com.example.myimagelogapp.auth.AuthNavigator
 import com.example.myimagelogapp.auth.AuthSession
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +24,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         lastHandledAuthUrl = savedInstanceState?.getString(KEY_LAST_AUTH_URL)
         handleAuthDeepLink(intent)
+        window.decorView.post { enforceAuthOnStart() }
+    }
+
+    private fun enforceAuthOnStart() {
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host) as? NavHostFragment ?: return
+        AuthNavigator.enforceAuthAtStartup(navHost.navController, this)
     }
 
     override fun onNewIntent(intent: Intent) {

@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">MyImageLogApp</string>
     <string name="create_post">기록하기</string>
+    <string name="create_post_subtitle">오늘의 순간을 사진과 글로 남겨보세요</string>
+    <string name="photo_preview_label">선택한 사진</string>
+    <string name="ai_summary_label">✨ AI 요약</string>
     <string name="edit_post">수정하기</string>
     <string name="post_title">제목</string>
     <string name="post_content">내용</string>
@@ -21,8 +24,10 @@
     <string name="oauth_kakao">Kakao 로그인</string>
     <string name="stock_report_subscribe">국내주식리포트구독</string>
     <string name="stock_report_dialog_title">국내주식 리포트 구독</string>
-    <string name="stock_report_symbol_hint">국내주식 명칭 (예: 삼성전자)</string>
-    <string name="stock_report_email_hint">리포트 수신 이메일</string>
+    <string name="stock_report_symbol_label">국내주식 명칭</string>
+    <string name="stock_report_symbol_placeholder">예: 삼성전자, SK하이닉스</string>
+    <string name="stock_report_email_label">리포트 수신 이메일</string>
+    <string name="stock_report_email_placeholder">example@email.com</string>
     <string name="stock_report_publish">발행하기</string>
     <string name="stock_report_cancel">취소</string>
     <string name="stock_report_success">구독이 등록되었습니다.</string>
@@ -30,4 +35,19 @@
     <string name="stock_report_invalid_email">올바른 이메일을 입력해주세요.</string>
     <string name="stock_report_invalid_symbol">주식 명칭을 입력해주세요.</string>
     <string name="stock_report_failed">구독 등록에 실패했습니다.</string>
+    <string name="stock_report_short">리포트</string>
+
+    <string name="praise_short">평가</string>
+    <string name="praise_page_title">칭찬 &amp; 후기</string>
+    <string name="praise_page_subtitle">앱을 사용해 주셔서 감사합니다. 따뜻한 한마디를 남겨주세요.</string>
+    <string name="praise_empty">아직 등록된 칭찬이 없습니다.\n첫 번째 칭찬을 남겨보세요!</string>
+    <string name="praise_write_fab">칭찬 남기기</string>
+    <string name="praise_write_title">칭찬 글 쓰기</string>
+    <string name="praise_write_subtitle">닉네임 2~10자, 내용 500자 이하</string>
+    <string name="praise_nickname_hint">닉네임</string>
+    <string name="praise_content_hint">칭찬 내용</string>
+    <string name="praise_submit">등록하기</string>
+    <string name="praise_submit_success">칭찬이 등록되었습니다. 감사합니다!</string>
+    <string name="praise_invalid_nickname">닉네임은 2~10자로 입력해주세요.</string>
+    <string name="praise_invalid_content">칭찬 내용을 입력해주세요.</string>
 </resources>

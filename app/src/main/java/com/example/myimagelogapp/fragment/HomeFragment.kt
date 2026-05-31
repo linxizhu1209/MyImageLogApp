@@ -25,6 +25,7 @@ import com.example.myimagelogapp.viewModel.NewsUiState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import androidx.core.net.toUri
+import com.example.myimagelogapp.auth.AuthNavigator
 import com.example.myimagelogapp.auth.AuthSession
 import com.example.myimagelogapp.data.repository.StockReportRepository
 import com.google.android.material.button.MaterialButton
@@ -60,17 +61,15 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (AuthNavigator.redirectToLoginIfNeeded(this)) return
+
         userId = AuthSession.userId(requireContext())
         setupRecyclerView()
         setupButtons()
         observeImageState()
         observeNewsState()
 
-        if (userId > 0L) {
-            homeVm.loadThisWeek(userId = userId)
-        } else {
-            Toast.makeText(requireContext(), "먼저 로그인 해주세요.", Toast.LENGTH_SHORT).show()
-        }
+        homeVm.loadThisWeek(userId = userId)
         homeVm.loadTodayNews()
     }
 
@@ -114,6 +113,9 @@ class HomeFragment : Fragment() {
         binding.btnStockReportSubscribe.setOnClickListener {
             showStockReportSubscribeDialog()
         }
+        binding.btnPraise.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_praise)
+        }
     }
 
     private fun observeImageState() {
@@ -130,7 +132,12 @@ class HomeFragment : Fragment() {
                     }
                     is HomeUiState.Error -> {
                         binding.tvEmptyThisWeek.visibility = View.GONE
-                        Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                        if (state.requiresLogin) {
+                            AuthSession.clear(requireContext())
+                            AuthNavigator.redirectToLoginIfNeeded(this@HomeFragment)
+                        } else {
+                            Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                        }
                     }
                     else -> Unit
                 }
@@ -171,8 +178,13 @@ class HomeFragment : Fragment() {
                         binding.tvNewsLoading.visibility = View.GONE
                         binding.llNewsContainer.visibility = View.GONE
                         binding.llAiSummaryContainer.visibility = View.GONE
-                        binding.tvNewsEmpty.visibility = View.VISIBLE
-                        binding.tvNewsEmpty.text = state.message
+                        if (state.requiresLogin) {
+                            AuthSession.clear(requireContext())
+                            AuthNavigator.redirectToLoginIfNeeded(this@HomeFragment)
+                        } else {
+                            binding.tvNewsEmpty.visibility = View.VISIBLE
+                            binding.tvNewsEmpty.text = state.message
+                        }
                     }
                     else -> Unit
                 }
@@ -249,10 +261,12 @@ class HomeFragment : Fragment() {
         val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btn_dialog_cancel)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            stockReportRepo.getSubscription()?.let { sub ->
-                etEmail.setText(sub.email)
-                etSymbol.setText(sub.symbols.joinToString(", "))
-            }
+            runCatching { stockReportRepo.getSubscription() }
+                .getOrNull()
+                ?.let { sub ->
+                    etEmail.setText(sub.email)
+                    etSymbol.setText(sub.symbols.joinToString(", "))
+                }
         }
 
         val dialog = MaterialAlertDialogBuilder(requireContext())

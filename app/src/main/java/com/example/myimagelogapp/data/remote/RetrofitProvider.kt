@@ -3,6 +3,8 @@ package com.example.myimagelogapp.data.remote
 import android.content.Context
 import com.example.myimagelogapp.R
 import com.example.myimagelogapp.auth.AuthSession
+import com.example.myimagelogapp.auth.SessionInvalidatingInterceptor
+import com.example.myimagelogapp.data.AppPraiseApi
 import com.example.myimagelogapp.data.StockReportApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -25,6 +27,7 @@ object RetrofitProvider {
         }
 
         val client = OkHttpClient.Builder()
+            .addInterceptor(SessionInvalidatingInterceptor(context))
             .addInterceptor { chain ->
                 val req = chain.request()
                 val token = AuthSession.token(context)
@@ -62,6 +65,7 @@ object RetrofitProvider {
         }
 
         val client = OkHttpClient.Builder()
+            .addInterceptor(SessionInvalidatingInterceptor(context))
             .addInterceptor { chain ->
                 val req = chain.request()
                 val token = AuthSession.token(context)
@@ -85,6 +89,28 @@ object RetrofitProvider {
             .build()
 
         return retrofit.create(StockReportApi::class.java)
+    }
 
+    /** 로그인 없이 호출 가능 (서버 permitAll) */
+    fun createAppPraiseApi(context: Context): AppPraiseApi {
+        val baseUrl = context.getString(R.string.base_url)
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .build()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(client)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+        return retrofit.create(AppPraiseApi::class.java)
     }
 }

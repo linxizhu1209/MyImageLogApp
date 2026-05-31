@@ -21,7 +21,11 @@ class StockReportRepository(
         return try {
             api.getMine()
         } catch (e: HttpException) {
-            if (e.code() == 404) null else throw e
+            // 서버: 구독 없음 시 IllegalArgumentException → 500 (404가 아님)
+            when (e.code()) {
+                404, 500 -> null
+                else -> throw e
+            }
         }
     }
 
